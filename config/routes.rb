@@ -1,23 +1,23 @@
 Rails.application.routes.draw do
 
-  resources :reservations, except: [:show, :index]
-
-  devise_for :users
+  root 'restaurants#index'
   
   get 'dashboards/user'
-
   get 'dashboards/owner'
-
-  resources :restaurants
-
   get 'pages/about'
-
   get 'pages/contact'
 
-  root 'restaurants#index'
+  get 'reservations' => 'reservations#index'
 
   get "/auth/auth0/callback" => "auth0#callback"
   get "/auth/failure" => "auth0#failure"
+
+  resources :reservations, except: [:show, :index]
+
+  devise_for :users
+  resources :restaurants do
+    resources :reservations, except: [:show, :index]
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

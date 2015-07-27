@@ -1,30 +1,61 @@
-<p id="notice"><%= notice %></p>
+<div class="col-md-8">
 
-<p>
-  <strong>Name:</strong>
-  <%= @restaurant.name %>
-</p>
+        <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Address:</strong>
-  <%= @restaurant.address %>
-</p>
+        <p>
+          <strong>Name:</strong>
+          <%= @restaurant.name %>
+        </p>
 
-<p>
-  <strong>Phone:</strong>
-  <%= @restaurant.phone %>
-</p>
+        <p>
+          <strong>Address:</strong>
+          <%= @restaurant.address %>
+        </p>
 
-<p>
-  <strong>Website:</strong>
-  <%= @restaurant.website %>
-</p>
+        <p>
+          <strong>Phone:</strong>
+          <%= @restaurant.phone %>
+        </p>
 
-<iframe width="600" height="350" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDyoeM69SUh2MjwY-umS31ntvpkc5uFpog&q=<%= @restaurant.address.parameterize %>&zoom=14"></iframe> 
+        <p>
+          <strong>Website:</strong>
+          <%= @restaurant.website %>
+        </p>
 
-<br>
-<br>
+        <iframe width="600" height="350" frameborder="0" style="border:0"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDyoeM69SUh2MjwY-umS31ntvpkc5uFpog&q=<%= @restaurant.address.parameterize %>&zoom=14"></iframe> 
 
-<%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
-<%= link_to 'Back', restaurants_path %>
+        <br>
+        <br>
+
+        <%= link_to "Make a reservation", new_restaurant_reservation_path(@restaurant), class: "btn btn-default" %>
+       <% if user_signed_in? %>
+        <%= link_to 'Edit', edit_restaurant_path(@restaurant), class: "btn btn-link" %> |
+       <% end %>
+        <%= link_to 'Back', restaurants_path, class: "btn btn-link" %>
+  </div>
+
+  <div class="col-md-4">
+   <% if user_signed_in? %>
+      <% if @reservations.blank? %>
+        <h3>No reservations for this restaurant yet. Be the first to book one!</h3>
+      <% else %>
+        <p>
+        <strong>List of open reservations at this restaurant:</strong><br>
+        <% @reservations.each do |reservation| %>
+          <div class="alert alert-info" role="alert">
+            <p><strong>Reservation made by </strong><%= reservation.user.email %></p>
+            <p><strong>Date: </strong><%= reservation.date %></p>
+            <p><strong>Number of People: </strong><%= reservation.people %></p>
+            <p><strong>Comments: </strong><%= reservation.comment %></p>
+          </div>
+        <% end %>
+        </p>
+      <% end %>
+   <% else %>
+     <p> <strong>Sign in to look at the reservations on this restaurant.</strong><br>
+   <% end %>
+
+  </div>
+
+

@@ -1,16 +1,20 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :except => [:index]
+  before_action :set_restaurant, :except => [:show, :index, :edit]
 
   # GET /reservations
   # GET /reservations.json
   def index
     @reservations = Reservation.all
+    #@reservations = Reservation.where(user_id: params[:id])
+  
   end
 
   # GET /reservations/1
   # GET /reservations/1.json
   def show
+      @reservations = Reservation.where(user_id: params[:id])
   end
 
   # GET /reservations/new
@@ -20,18 +24,23 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1/edit
   def edit
+
   end
 
   # POST /reservations
   # POST /reservations.json
   def create
-    @reservation = Reservation.new(reservation_params)
 
+    @reservation = Reservation.new(reservation_params)
     @reservation.user_id = current_user.id
+    @reservation.restaurant_id = @restaurant.id
+
+    flag = @reservation.save
+
 
     respond_to do |format|
-      if @reservation.save
-        format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
+      if flag
+        format.html { redirect_to @restaurant, notice: 'Reservation was successfully created.' }
         format.json { render :show, status: :created, location: @reservation }
       else
         format.html { render :new }
@@ -62,6 +71,10 @@ class ReservationsController < ApplicationController
       format.html { redirect_to reservations_url, notice: 'Reservation was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:restaurant_id])
   end
 
   private
