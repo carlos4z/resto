@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
 
-  resources :reservations
+  resources :reservations, except: [:show, :index]
+
   devise_for :users
+  
   get 'dashboards/user'
 
   get 'dashboards/owner'
 
   resources :restaurants
+
   get 'pages/about'
 
   get 'pages/contact'
