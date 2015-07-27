@@ -1,0 +1,55 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">RestoApp</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/pages/about">About</a></li>
+        <li><a href="/pages/contact">Contact Us</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Sign Up</a></li>
+
+        <!-- Code frm Auth0 for sign in-->
+          <script type="text/javascript">
+            var lock = new Auth0Lock('ji650Q8IWqpqk00eGQMui26iIr1jr7pE', 'carlos4z.auth0.com');
+            function signin() {
+              lock.show({
+                  callbackURL: 'http://localhost:3000/auth/auth0/callback'
+                , responseType: 'code'
+                , authParams: {
+                  scope: 'openid profile'
+                }
+              });
+            }
+          </script>
+        <li><a id="signin" title="" href="#" onclick="signin();return false;">Sign In</a></li>
+          <script src="https://cdn.auth0.com/js/lock-7.5.min.js"></script>
+        <!-- End of code frm Auth0 for sign in-->
+
+
+        <!-- If user is signed in-->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Welcome, [Username] <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">My profile</a></li>
+            <li><a href="#">Sign out</a></li>
+          </ul>
+        </li>
+        <!-- End of code, if user is signed in -->
+
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
